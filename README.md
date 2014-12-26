@@ -1,6 +1,10 @@
 # Reel
 
-***Capture computations.***
+*Film computations*
+
+<p align="center">
+    <img src="http://shashi.github.io/.assets/Reel/conway.gif" />
+</p>
 
 ## Quickstart
 
@@ -38,6 +42,9 @@ write("file.webm", film) # Write to a webm video
 # Or
 write("file.mp4", film)  # An mp4 formatted video
 ```
+<p align="center">
+    <img src="http://shashi.github.io/.assets/Reel/sincos.gif" />
+</p>
 
 The same thing can be concisely written with Julia's do syntax:
 
@@ -51,12 +58,12 @@ write("output.gif", film)
 
 Note that the fps you specify to `roll` will be enforced no matter how long the computation actually takes: you set the speed at which you want to watch it.
 
-Reel can also render an anstract array of objects:
+Reel can also render an abstract array of objects:
 
 ```julia
 using Compose
 
-Compose.set_default_graphic_size(3inch, 3inch)
+Compose.set_default_graphic_size(3inch, 3inch) # Square
 
 # draw a regular n-gon
 ngon(n) = compose(context(units=UnitBox(-1, -1, 2, 2)), fill("lightblue"),
@@ -65,17 +72,19 @@ ngon(n) = compose(context(units=UnitBox(-1, -1, 2, 2)), fill("lightblue"),
 roll(map(ngon, vcat([3:10], [9:-1:3])), fps=5)
 ```
 
+<p align="center">
+    <img src="http://shashi.github.io/.assets/Reel/ngon.gif" />
+</p>
+
+
 Reel exports `Frames`, a type for a collection of frames.
 
 `Frames` constructor takes a MIME type of the frames, and the fps at which the animation should be rendered. e.g.
-```julia
-frames = Frames(MIME("image/png"), fps=30)
-```
 
 You can push a new frames to a `Frames` object using `push!`.
 
 ```julia
-# A Glider gun
+# A Glider gun from Conway's game of Life
 
 using Reel
 frames = Frames(MIME("image/png"), fps=2)
@@ -90,7 +99,11 @@ frames
 
 ```
 
-You can render a frames object as usual:
+<p align="center">
+    <img src="http://shashi.github.io/.assets/Reel/conway.gif" />
+</p>
+
+You can render a `Frames` object as usual:
 
 ```julia
 write("output.webm", frames)
@@ -104,7 +117,7 @@ A call to `roll` returns a `Frames` object. A method `writemime(::IO, ::MIME{sym
 Reel.set_output_type("gif") # or "mp4"
 ```
 
-## They see me `roll`in', they hatin'
+## They see me rollin', they hatin'
 
 ```julia
 # particles in a box.
@@ -129,7 +142,9 @@ roll(fps=30, duration=10.0) do t, dt
 end
 
 ```
-
+<p align="center">
+    <img src="http://shashi.github.io/.assets/Reel/balls.gif" />
+</p>
 
 ```julia
 # Derichilet Helmholtz equation using ApproxFun
@@ -143,4 +158,16 @@ plots = [ApproxFun.contour(pdesolve([B,Δ+k*I],ones(4),150))
             for k=vcat([1:1.0:100], [99:-1.0:1])]
 
 roll(plots, fps=24)
+
+# Warning: this gif is 8 mb!
 ```
+
+<p align="center">
+    <img src="http://shashi.github.io/.assets/Reel/helmholtz.gif" />
+</p>
+
+---
+
+<p align="center">
+    <em>Fin.</em>
+</p>
