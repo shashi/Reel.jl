@@ -13,9 +13,9 @@ end
 
 type Frames{M <: MIME}
     tmpdir::AbstractString
-    length::Uint
+    length::UInt
     fps::Float64
-    rendered::Union(Nothing, AbstractString)
+    rendered::(@compat Union{Void, AbstractString})
     function Frames(; fps=30)
         tmpdir = tempname()
         mkdir(tmpdir)
@@ -82,7 +82,7 @@ end
 
 ### Roll teh camraz! ###
 
-function roll(render::Union(Function, Type);
+function roll(render::(@compat Union{Function, Type});
                  fps=30, duration=5.0)
     t      = 0.0
     dt     = 1.0 / fps
@@ -106,14 +106,14 @@ function roll(frames::AbstractArray; fps=30)
 end
 
 function newname!(ext)
-    string("reel-", rand(Uint), ".", ext)
+    string("reel-", rand(UInt), ".", ext)
 end
 
 #### writemimes ####
 # TODO: research the crap out of this
 
 function writehtml(io, file, file_type)
-    randstr = rand(Uint)
+    randstr = rand(UInt)
     if file_type == "gif"
         write(io, """<img src="$file?$randstr" />""")
     elseif file_type == "webm"
