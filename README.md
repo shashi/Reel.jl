@@ -147,7 +147,7 @@ end
 </p>
 
 ```julia
-# Derichilet Helmholtz equation using ApproxFun
+# Solution of Helmholtz equation with Dirichlet BC using ApproxFun
 
 using ApproxFun
 
