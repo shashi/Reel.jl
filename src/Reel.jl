@@ -17,8 +17,7 @@ type Frames{M <: MIME}
     fps::Float64
     rendered::(@compat Union{Void, AbstractString})
     function Frames(; fps=30)
-        tmpdir = tempname()
-        mkdir(tmpdir)
+        tmpdir = mktempdir()
         new(tmpdir, 0, fps, nothing)
     end
 end
@@ -26,7 +25,7 @@ Frames{M <: MIME}(m::M; fps=30) = Frames{M}(fps=fps)
 
 extension(m::MIME"image/png") = "png"
 extension(m::MIME"image/jpeg") = "jpg"
-extension(s::AbstractString) = split(s, ".")[end] 
+extension(s::AbstractString) = split(s, ".")[end]
 
 function writeframe(filename, mime::MIME, frame)
     file = open(filename, "w")
@@ -89,7 +88,7 @@ function roll(render::(@compat Union{Function, Type});
     steps  = duration / dt
     frame  = render(t, dt)
     mime   = bestmime(frame)
-    frames = Frames(mime)
+    frames = Frames(mime, fps=fps)
     push!(frames, frame)
 
     for i=2:steps
