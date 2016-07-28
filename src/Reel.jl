@@ -68,7 +68,14 @@ function write{M}(f::AbstractString, frames::Frames{M}; fps=frames.fps)
         # The maximum delay widely supported by clients is 2 ticks (100 ticks per sec)
         #delay = max(round(100/fps), 2) |> int
         args = reduce(vcat, [[joinpath("$dir", "$i.$ext"), "-delay", "1x$fps", "-alpha", "remove"] for i in 1:frames.length])
-        imagemagick_cmd = `convert $args $f`
+        cmd = try readall(`which convert`)
+        catch e1
+            try readall(`which magick`)
+            catch e2
+                error("Could not find imagemagick binary. Is it installed?")
+            end
+        end |> strip
+        imagemagick_cmd = `$cmd $args $f`
         #run(`convert -alpha remove $dir/*.$ext -delay $delay $f`)
         run(imagemagick_cmd)
         frames.rendered = f
