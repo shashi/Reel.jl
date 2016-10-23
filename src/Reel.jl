@@ -12,10 +12,10 @@ function set_output_type(t)
 end
 
 type Frames{M <: MIME}
-    tmpdir::AbstractString
+    tmpdir::String
     length::UInt
     fps::Float64
-    rendered::(@compat Union{Void, AbstractString})
+    rendered::(@compat Union{Void, String})
     function Frames(; fps=30)
         tmpdir = mktempdir()
         new(tmpdir, 0, fps, nothing)
@@ -25,7 +25,7 @@ Frames{M <: MIME}(m::M; fps=30) = Frames{M}(fps=fps)
 
 extension(m::MIME"image/png") = "png"
 extension(m::MIME"image/jpeg") = "jpg"
-extension(s::AbstractString) = split(s, ".")[end]
+extension(s::String) = split(s, ".")[end]
 
 function writeframe(filename, mime::MIME, frame)
     file = open(filename, "w")
@@ -58,7 +58,7 @@ function bestmime(x)
     end
 end
 
-function write{M}(f::AbstractString, frames::Frames{M}; fps=frames.fps)
+function write{M}(f::String, frames::Frames{M}; fps=frames.fps)
     # TODO: more ffmpeg options
     dir = frames.tmpdir
     ext = extension(M())
@@ -80,7 +80,8 @@ function write{M}(f::AbstractString, frames::Frames{M}; fps=frames.fps)
         run(imagemagick_cmd)
         frames.rendered = f
     else
-        run(`ffmpeg -r $fps -f image2 -i $dir/%d.$ext $f` |> DevNull .> DevNull)
+        # run(`ffmpeg -r $fps -f image2 -i $dir/%d.$ext $f` |> DevNull .> DevNull)
+        run(pipeline(`ffmpeg -y -r $fps -f image2 -i $dir/%d.$ext $f`, DevNull))
         frames.rendered = f
     end
 end
@@ -115,7 +116,7 @@ function newname!(ext)
     string("reel-", rand(UInt), ".", ext)
 end
 
-#### writemimes ####
+#### writemimes - now Base.show ####
 # TODO: research the crap out of this
 
 function writehtml(io, file, file_type)
