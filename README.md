@@ -1,5 +1,7 @@
 # Reel
 
+[![Build Status](https://travis-ci.org/shashi/Reel.jl.svg?branch=master)](https://travis-ci.org/shashi/Reel.jl)
+
 *Film computations*
 
 <p align="center">
