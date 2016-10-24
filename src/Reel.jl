@@ -67,7 +67,7 @@ function write{M}(f::String, frames::Frames{M}; fps=frames.fps)
     if oext == "gif"
         # The maximum delay widely supported by clients is 2 ticks (100 ticks per sec)
         #delay = max(round(100/fps), 2) |> int
-        args = reduce(vcat, [[joinpath("$dir", "$i.$ext"), "-delay", "1x$fps", "-alpha", "remove"] for i in 1:frames.length])
+        args = reduce(vcat, [[joinpath("$dir", "$i.$ext"), "-delay", "1x$fps", "-alpha", "deactivate"] for i in 1:frames.length])
         cmd = try readstring(`which convert`)
         catch e1
             try readstring(`which magick`)
