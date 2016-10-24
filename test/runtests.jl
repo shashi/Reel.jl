@@ -16,18 +16,18 @@ let
     film = roll(render, fps=30, duration=2)
 
     write("output.gif", film) # Write to a gif file
-    # write("file.webm", film) # Write to a webm video
-    # write("file.mp4", film)  # An mp4 formatted video
+    write("file.webm", film) # Write to a webm video
+    write("file.mp4", film)  # An mp4 formatted video
 end
 
 
-# let
-#     film = roll(fps=30, duration=2) do t, dt
-#         plot([x -> sin(x+t*π), x -> cos(x+t*π)], 0, 6)
-#     end
+let
+    film = roll(fps=30, duration=2) do t, dt
+        plot([x -> sin(x+t*π), x -> cos(x+t*π)], 0, 6)
+    end
 
-#     write("output.gif", film)
-# end
+    write("output.gif", film)
+end
 
 # using Compose
 # let
