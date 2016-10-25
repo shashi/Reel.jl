@@ -81,7 +81,7 @@ function write{M}(f::String, frames::Frames{M}; fps=frames.fps)
         frames.rendered = f
     else
         # run(`ffmpeg -r $fps -f image2 -i $dir/%d.$ext $f` |> DevNull .> DevNull)
-        run(pipeline(`ffmpeg -y -r $fps -f image2 -i $dir/%d.$ext $f`, DevNull))
+        run(pipeline(`ffmpeg -y -r $fps -f image2 -i $dir/%d.$ext $f`, stdout=DevNull, stderr=DevNull))
         frames.rendered = f
     end
 end
