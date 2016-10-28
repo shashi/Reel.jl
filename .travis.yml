@@ -1,7 +1,6 @@
 language: julia
 os:
   - linux
-  - osx
 julia:
   - release
   - 0.5
@@ -10,6 +9,8 @@ notifications:
   email: false
 before_install:
   # - sudo apt-get -qq update
+  - sudo apt-get install ffmpeg
+  - sudo apt-get install imagemagick
   - sudo apt-get install git
 script:
   - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
