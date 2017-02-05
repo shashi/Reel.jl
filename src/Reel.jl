@@ -100,8 +100,8 @@ function roll(render::(@compat Union{Function, Type});
     push!(frames, frame)
 
     for i=2:steps
-        push!(frames, render(t, dt))
         t += dt
+        push!(frames, render(t, dt))
     end
     frames
 end
