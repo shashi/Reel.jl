@@ -11,12 +11,12 @@ function set_output_type(t)
     _output_type = t
 end
 
-type Frames{M <: MIME}
+mutable struct Frames{M <: MIME}
     tmpdir::String
     length::UInt
     fps::Float64
     rendered::(@compat Union{Void, String})
-    function Frames(; fps=30)
+    function Frames{M}(; fps=30) where {M <: MIME}
         tmpdir = mktempdir()
         new(tmpdir, 0, fps, nothing)
     end
@@ -119,7 +119,7 @@ end
 #### writemimes - now Base.show ####
 # TODO: research the crap out of this
 
-function writehtml(io, file, file_type)
+function writehtml(io::IO, file, file_type::String)
     randstr = rand(UInt)
     if file_type == "gif"
         write(io, """<img src="$file?$randstr" />""")
@@ -163,7 +163,7 @@ function show(io::IO, ::MIME"text/html", frames::Frames)
 end
 
 function cleanup()
-    run(`rm reel-*.*`)
+    run(`rm reel-'*'.'*'`)
 end
 
 
