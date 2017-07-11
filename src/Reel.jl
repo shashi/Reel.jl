@@ -1,3 +1,5 @@
+VERSION >= v"0.4.0-dev+6521" && __precompile__(true)
+
 module Reel
 
 using Compat
@@ -100,8 +102,8 @@ function roll(render::(@compat Union{Function, Type});
     push!(frames, frame)
 
     for i=2:steps
-        push!(frames, render(t, dt))
         t += dt
+        push!(frames, render(t, dt))
     end
     frames
 end

@@ -53,3 +53,13 @@ let
     write("output.gif", frames)
     # write("output.webm", frames)
 end
+
+# issue 16  https://github.com/shashi/Reel.jl/issues/16
+let 
+    ts = []
+    film = roll(fps=1, duration=5) do t, dt
+        push!(ts, t)
+        plot([x -> sin(x+t*π), x -> cos(x+t*π)], 0, 6)
+    end
+    @test all(diff(ts).==1.0)
+end
