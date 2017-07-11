@@ -55,7 +55,7 @@ let
 end
 
 # issue 16  https://github.com/shashi/Reel.jl/issues/16
-let 
+let
     ts = []
     film = roll(fps=1, duration=5) do t, dt
         push!(ts, t)

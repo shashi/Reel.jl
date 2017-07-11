@@ -1,8 +1,6 @@
-VERSION >= v"0.4.0-dev+6521" && __precompile__(true)
+__precompile__(true)
 
 module Reel
-
-using Compat
 
 import Base: write, push!, show
 export Frames, roll
@@ -17,7 +15,7 @@ mutable struct Frames{M <: MIME}
     tmpdir::String
     length::UInt
     fps::Float64
-    rendered::(@compat Union{Void, String})
+    rendered::Union{Void, String}
     function Frames{M}(; fps=30) where {M <: MIME}
         tmpdir = mktempdir()
         new(tmpdir, 0, fps, nothing)
@@ -91,7 +89,7 @@ end
 
 ### Roll teh camraz! ###
 
-function roll(render::(@compat Union{Function, Type});
+function roll(render::Union{Function, Type};
                  fps=30, duration=5.0)
     t      = 0.0
     dt     = 1.0 / fps
