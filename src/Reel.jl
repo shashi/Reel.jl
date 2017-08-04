@@ -119,7 +119,7 @@ end
 #### writemimes - now Base.show ####
 # TODO: research the crap out of this
 
-function writehtml(io::IO, file, file_type::String)
+function writehtml(io::IO, file, file_type::AbstractString)
     randstr = rand(UInt)
     if file_type == "gif"
         write(io, """<img src="$file?$randstr" />""")
