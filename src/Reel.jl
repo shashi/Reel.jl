@@ -80,8 +80,20 @@ function write{M}(f::String, frames::Frames{M}; fps=frames.fps)
         run(imagemagick_cmd)
         frames.rendered = f
     else
-        # run(`ffmpeg -r $fps -f image2 -i $dir/%d.$ext $f` |> DevNull .> DevNull)
-        run(pipeline(`ffmpeg -y -r $fps -f image2 -i $dir/%d.$ext $f`, stdout=DevNull, stderr=DevNull))
+        # note that ffmpeg's option is positional-dependend
+        global_opts = [
+            "-y",
+            "-r", fps,
+        ]
+        input_opts = [
+            "-i", "$dir/%d.$ext"  # this should be the finial one of input options
+        ]
+        output_opts = [
+            "-pix_fmt", :yuv420p,  # make the output file work on firefox
+            f  # output path
+        ]
+        run(pipeline(`ffmpeg $global_opts $input_opts $output_opts`,
+                     stdout=DevNull, stderr=DevNull))
         frames.rendered = f
     end
 end
