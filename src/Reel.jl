@@ -106,9 +106,9 @@ function roll(render::Union{Function, Type};
     frames
 end
 
-function roll(frames::AbstractArray; fps=30)
+function roll(frames::Union{AbstractArray, Base.Generator}; fps=30)
     @assert length(frames) > 1
-    mime = bestmime(frames[1])
+    mime = bestmime(first(frames))
     reduce(push!, Frames(mime, fps=fps), frames)
 end
 

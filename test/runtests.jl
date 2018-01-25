@@ -18,8 +18,11 @@ let
     write("output.gif", film) # Write to a gif file
     write("file.webm", film) # Write to a webm video
     write("file.mp4", film)  # An mp4 formatted video
-end
 
+    @show typeof((render(t,0.1) for t in 0:0.1:2))
+    roll((render(t,0.1) for t in 0:0.1:2), fps=30)
+    write("output2.gif", film) # Write to a gif file
+end
 
 let
     film = roll(fps=30, duration=2) do t, dt
