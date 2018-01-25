@@ -12,11 +12,11 @@ notifications:
 before_install:
   # - sudo apt-get -qq update
   # - sudo apt-get install ffmpeg
-  - sudo add-apt-repository ppa:mc3man/trusty-media
-  - sudo apt-get update
-  - sudo apt-get install ffmpeg gstreamer0.10-ffmpeg
-  - sudo apt-get install imagemagick
-  - sudo apt-get install git
+  - sudo add-apt-repository ppa:mc3man/trusty-media -y
+  - sudo apt-get update -q
+  - sudo apt-get install ffmpeg gstreamer0.10-ffmpeg -y
+  - sudo apt-get install imagemagick -y
+  - sudo apt-get install git -y
 script:
   - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
   - julia --check-bounds=yes -e 'Pkg.clone(pwd()); Pkg.build("Reel"); Pkg.test("Reel"; coverage=true)'
