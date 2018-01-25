@@ -18,7 +18,9 @@ mutable struct Frames{M <: MIME}
     rendered::Union{Void, String}
     function Frames{M}(; fps=30) where {M <: MIME}
         tmpdir = mktempdir()
-        new(tmpdir, 0, fps, nothing)
+        obj = new(tmpdir, 0, fps, nothing)
+        finalizer(obj, x -> rm(x.tmpdir, force=true, recursive=true))
+        obj
     end
 end
 Frames{M <: MIME}(m::M; fps=30) = Frames{M}(fps=fps)
