@@ -11,7 +11,10 @@ notifications:
   email: false
 before_install:
   # - sudo apt-get -qq update
-  - sudo apt-get install ffmpeg
+  # - sudo apt-get install ffmpeg
+  - sudo add-apt-repository ppa:mc3man/trusty-media
+  - sudo apt-get update
+  - sudo apt-get install ffmpeg gstreamer0.10-ffmpeg
   - sudo apt-get install imagemagick
   - sudo apt-get install git
 script:
