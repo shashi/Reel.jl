@@ -71,7 +71,7 @@ Compose.set_default_graphic_size(3inch, 3inch) # Square
 ngon(n) = compose(context(units=UnitBox(-1, -1, 2, 2)), fill("lightblue"),
                 polygon([(cos(x), sin(x)) for x in π/2:2π/n:3.5π]))
 
-roll(map(ngon, [3:10, 9:-1:3]), fps=5)
+roll(map(ngon, vcat(3:10, 9:-1:3)), fps=5)
 ```
 
 <p align="center">
