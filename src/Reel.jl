@@ -1,5 +1,3 @@
-__precompile__(true)
-
 module Reel
 
 import Base: write, push!, show
@@ -15,7 +13,7 @@ mutable struct Frames{M <: MIME}
     tmpdir::String
     length::UInt
     fps::Float64
-    rendered::Union{Void, String}
+    rendered::Union{Nothing, String}
     function Frames{M}(; fps=30) where {M <: MIME}
         tmpdir = mktempdir()
         obj = new(tmpdir, 0, fps, nothing)
@@ -23,7 +21,7 @@ mutable struct Frames{M <: MIME}
         obj
     end
 end
-Frames{M <: MIME}(m::M; fps=30) = Frames{M}(fps=fps)
+Frames(m::M; fps=30) where {M <: MIME} = Frames{M}(fps=fps)
 
 extension(m::MIME"image/png") = "png"
 extension(m::MIME"image/jpeg") = "jpg"
@@ -36,7 +34,7 @@ function writeframe(filename, mime::MIME, frame)
 end
 
 
-function push!{M}(frames::Frames{M}, x)
+function push!(frames::Frames{M}, x) where M
     frames.length += 1
     writeframe(
         joinpath(frames.tmpdir,
@@ -54,13 +52,13 @@ const mime_ordering = map(MIME, [
 
 function bestmime(x)
     for m in mime_ordering
-        if mimewritable(m, x)
+        if show:able(m, x)
             return m
         end
     end
 end
 
-function write{M}(f::String, frames::Frames{M}; fps=frames.fps)
+function write(f::String, frames::Frames{M}; fps=frames.fps) where M
     # TODO: more ffmpeg options
     dir = frames.tmpdir
     ext = extension(M())

@@ -1,5 +1,5 @@
 using Reel
-using Base.Test
+using Test
 
 using Gadfly
 
