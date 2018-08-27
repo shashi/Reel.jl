@@ -52,7 +52,7 @@ const mime_ordering = map(MIME, [
 
 function bestmime(x)
     for m in mime_ordering
-        if show:able(m, x)
+        if showable(m, x)
             return m
         end
     end
