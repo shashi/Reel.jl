@@ -1,0 +1,14 @@
+name = "Reel"
+uuid = "71555da5-176e-5e73-a222-aebc6c6e4f2f"
+repo = "https://github.com/shashi/Reel.jl"
+
+[deps]
+VideoIO = "d6d074c3-1acf-5d4c-9a43-ef38773959a2"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+Compose = "a81c6b42-2e10-5240-aca2-a61377ecd94b"
+Gadfly = "c91e804a-d5a3-530f-b6f0-dfbca275c004"
+
+[targets]
+test = ["Test","Compose","Gadfly"]
