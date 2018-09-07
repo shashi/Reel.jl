@@ -17,7 +17,7 @@ mutable struct Frames{M <: MIME}
     function Frames{M}(; fps=30) where {M <: MIME}
         tmpdir = mktempdir()
         obj = new(tmpdir, 0, fps, nothing)
-        finalizer(obj, x -> rm(x.tmpdir, force=true, recursive=true))
+        finalizer(x -> rm(x.tmpdir, force=true, recursive=true), obj)
         obj
     end
 end

@@ -1,7 +1,9 @@
 using Reel
 using Test
+# using Pkg
+# Pkg.add("Plots")
+using Plots
 
-using Gadfly
 
 let
     function render(t, dt)
@@ -32,6 +34,7 @@ let
     write("output.gif", film)
 end
 
+# Currently commented out because of problems even in Julia 0.6
 # using Compose
 # let
 #     Compose.set_default_graphic_size(3inch, 3inch) # Square
