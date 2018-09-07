@@ -1,9 +1,6 @@
 using Reel
 using Test
-# using Pkg
-# Pkg.add("Plots")
 using Plots
-
 
 let
     function render(t, dt)
