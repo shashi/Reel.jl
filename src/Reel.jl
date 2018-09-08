@@ -68,9 +68,9 @@ function write(f::String, frames::Frames{M}; fps=frames.fps) where M
         # The maximum delay widely supported by clients is 2 ticks (100 ticks per sec)
         #delay = max(round(100/fps), 2) |> int
         args = reduce(vcat, [[joinpath("$dir", "$i.$ext"), "-delay", "1x$fps", "-alpha", "deactivate"] for i in 1:frames.length])
-        cmd = try readstring(is_unix() ? `which convert` : `where convert`)
+        cmd = try read(Sys.isunix() ? `which convert` : `where convert`,String)
         catch e1
-            try readstring(is_unix() ? `which magick` : `where magick`)
+            try read(Sys.isunix() ? `which convert` : `where convert`,String)
             catch e2
                 error("Could not find imagemagick binary. Is it installed?")
             end
@@ -81,7 +81,7 @@ function write(f::String, frames::Frames{M}; fps=frames.fps) where M
         frames.rendered = f
     else
         # run(`ffmpeg -r $fps -f image2 -i $dir/%d.$ext $f` |> DevNull .> DevNull)
-        run(pipeline(`ffmpeg -y -r $fps -f image2 -i $dir/%d.$ext $f`, stdout=DevNull, stderr=DevNull))
+        run(pipeline(`ffmpeg -y -r $fps -f image2 -i $dir/%d.$ext $f`, stdout=devnull, stderr=devnull))
         frames.rendered = f
     end
 end
@@ -109,7 +109,7 @@ end
 function roll(frames::Union{AbstractArray, Base.Generator}; fps=30)
     @assert length(frames) > 1
     mime = bestmime(first(frames))
-    reduce(push!, Frames(mime, fps=fps), frames)
+    reduce(push!, frames; init=Frames(mime, fps=fps))
 end
 
 function newname!(ext)
