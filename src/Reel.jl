@@ -1,5 +1,3 @@
-__precompile__(true)
-
 module Reel
 
 import Base: write, push!, show
@@ -15,15 +13,15 @@ mutable struct Frames{M <: MIME}
     tmpdir::String
     length::UInt
     fps::Float64
-    rendered::Union{Void, String}
+    rendered::Union{Nothing, String}
     function Frames{M}(; fps=30) where {M <: MIME}
         tmpdir = mktempdir()
         obj = new(tmpdir, 0, fps, nothing)
-        finalizer(obj, x -> rm(x.tmpdir, force=true, recursive=true))
+        finalizer(x -> rm(x.tmpdir, force=true, recursive=true), obj)
         obj
     end
 end
-Frames{M <: MIME}(m::M; fps=30) = Frames{M}(fps=fps)
+Frames(m::M; fps=30) where {M <: MIME} = Frames{M}(fps=fps)
 
 extension(m::MIME"image/png") = "png"
 extension(m::MIME"image/jpeg") = "jpg"
@@ -36,7 +34,7 @@ function writeframe(filename, mime::MIME, frame)
 end
 
 
-function push!{M}(frames::Frames{M}, x)
+function push!(frames::Frames{M}, x) where M
     frames.length += 1
     writeframe(
         joinpath(frames.tmpdir,
@@ -54,13 +52,13 @@ const mime_ordering = map(MIME, [
 
 function bestmime(x)
     for m in mime_ordering
-        if mimewritable(m, x)
+        if showable(m, x)
             return m
         end
     end
 end
 
-function write{M}(f::String, frames::Frames{M}; fps=frames.fps)
+function write(f::String, frames::Frames{M}; fps=frames.fps) where M
     # TODO: more ffmpeg options
     dir = frames.tmpdir
     ext = extension(M())
@@ -70,9 +68,9 @@ function write{M}(f::String, frames::Frames{M}; fps=frames.fps)
         # The maximum delay widely supported by clients is 2 ticks (100 ticks per sec)
         #delay = max(round(100/fps), 2) |> int
         args = reduce(vcat, [[joinpath("$dir", "$i.$ext"), "-delay", "1x$fps", "-alpha", "deactivate"] for i in 1:frames.length])
-        cmd = try readstring(is_unix() ? `which convert` : `where convert`)
+        cmd = try read(Sys.isunix() ? `which convert` : `where convert`,String)
         catch e1
-            try readstring(is_unix() ? `which magick` : `where magick`)
+            try read(Sys.isunix() ? `which convert` : `where convert`,String)
             catch e2
                 error("Could not find imagemagick binary. Is it installed?")
             end
@@ -83,7 +81,7 @@ function write{M}(f::String, frames::Frames{M}; fps=frames.fps)
         frames.rendered = f
     else
         # run(`ffmpeg -r $fps -f image2 -i $dir/%d.$ext $f` |> DevNull .> DevNull)
-        run(pipeline(`ffmpeg -y -r $fps -f image2 -i $dir/%d.$ext $f`, stdout=DevNull, stderr=DevNull))
+        run(pipeline(`ffmpeg -y -r $fps -f image2 -i $dir/%d.$ext $f`, stdout=devnull, stderr=devnull))
         frames.rendered = f
     end
 end
@@ -111,7 +109,7 @@ end
 function roll(frames::Union{AbstractArray, Base.Generator}; fps=30)
     @assert length(frames) > 1
     mime = bestmime(first(frames))
-    reduce(push!, Frames(mime, fps=fps), frames)
+    reduce(push!, frames; init=Frames(mime, fps=fps))
 end
 
 function newname!(ext)
