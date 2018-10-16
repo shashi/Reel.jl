@@ -143,7 +143,7 @@ function show(io::IO, ::MIME"text/html", frames::Frames)
         if frames.rendered != nothing
             if startswith(abspath(frames.rendered), abspath(""))
                 # we can serve it right up from here.
-                file = replace(abspath(frames.rendered), abspath(""), "")
+                file = replace(abspath(frames.rendered), abspath("") => "")
                 writehtml(io, "files/" * file, extension(file))
             else
                 # the file is unreachable to the server, so we symlink or copy it.
