@@ -25,6 +25,7 @@ Frames(m::M; fps=30) where {M <: MIME} = Frames{M}(fps=fps)
 
 extension(m::MIME"image/png") = "png"
 extension(m::MIME"image/jpeg") = "jpg"
+extension(::MIME"text/html") = ".html"
 extension(s::String) = split(s, ".")[end]
 
 function writeframe(filename, mime::MIME, frame)
