@@ -69,9 +69,9 @@ function write(f::String, frames::Frames{M}; fps=frames.fps) where M
         # The maximum delay widely supported by clients is 2 ticks (100 ticks per sec)
         #delay = max(round(100/fps), 2) |> int
         args = reduce(vcat, [[joinpath("$dir", "$i.$ext"), "-delay", "1x$fps", "-alpha", "deactivate"] for i in 1:frames.length])
-        cmd = try read(Sys.isunix() ? `which convert` : `where convert`,String)
+        cmd = try read(Sys.isunix() ? `which convert` : `where magick`,String)
         catch e1
-            try read(Sys.isunix() ? `which convert` : `where convert`,String)
+            try read(Sys.isunix() ? `which convert` : `where magick`,String)
             catch e2
                 error("Could not find imagemagick binary. Is it installed?")
             end
