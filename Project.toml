@@ -4,9 +4,7 @@ repo = "https://github.com/shashi/Reel.jl.git"
 version = "1.1.2"
 
 [deps]
-
-[compat]
-julia = ">=1"
+FFMPEG = "c87230d0-a227-11e9-1b43-d7ebe4e7570a"
 
 [extras]
 Cairo = "159f3aea-2a34-519c-b102-8c37f9878175"

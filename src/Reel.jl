@@ -1,5 +1,7 @@
 module Reel
 
+using FFMPEG
+
 import Base: write, push!, show
 export Frames, roll
 
@@ -81,8 +83,8 @@ function write(f::String, frames::Frames{M}; fps=frames.fps) where M
         run(imagemagick_cmd)
         frames.rendered = f
     else
-        # run(`ffmpeg -r $fps -f image2 -i $dir/%d.$ext $f` |> DevNull .> DevNull)
-        run(pipeline(`ffmpeg -y -r $fps -f image2 -i $dir/%d.$ext $f`, stdout=devnull, stderr=devnull))
+        # FFMPEG.exe(`-y -r $fps -f image2 -i $dir/%d.$ext $f`)
+        run(pipeline(`$ffmpeg -y -r $fps -f image2 -i $dir/%d.$ext $f`, stdout=devnull, stderr=devnull))
         frames.rendered = f
     end
 end
