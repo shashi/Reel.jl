@@ -3,3 +3,7 @@
 *.swo
 *#
 *.DS_Store
+Manifest.toml
+*.mp4
+*.gif
+*.webm

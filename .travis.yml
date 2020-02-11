@@ -2,21 +2,20 @@ language: julia
 os:
   - linux
 julia:
-  - 0.7
   - 1.0
+  - 1.3
   - nightly
 matrix:
   allow_failures:
     - julia: nightly
 notifications:
   email: false
+
 before_install:
-  # - sudo apt-get -qq update
-  # - sudo apt-get install ffmpeg
-  - sudo add-apt-repository ppa:mc3man/trusty-media -y
   - sudo apt-get update -q
-  - sudo apt-get install ffmpeg gstreamer0.10-ffmpeg -y
+  - sudo apt-get install ffmpeg -y
   - sudo apt-get install imagemagick -y
   - sudo apt-get install git -y
+  
 after_success:
-  - julia -e 'cd(Pkg.dir("Reel")); Pkg.add("Coverage"); using Coverage; Coveralls.submit(Coveralls.process_folder())'
+  - julia --project --color=yes -e 'import Pkg; Pkg.add("Coverage"); using Coverage; Coveralls.submit(Coveralls.process_folder())'  
