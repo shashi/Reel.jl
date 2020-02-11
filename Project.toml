@@ -1,0 +1,18 @@
+name = "Reel"
+uuid = "71555da5-176e-5e73-a222-aebc6c6e4f2f"
+repo = "https://github.com/shashi/Reel.jl.git"
+version = "1.1.2"
+
+[deps]
+
+[compat]
+julia = ">=1"
+
+[extras]
+Cairo = "159f3aea-2a34-519c-b102-8c37f9878175"
+Compose = "a81c6b42-2e10-5240-aca2-a61377ecd94b"
+Plots = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Cairo", "Compose", "Plots", "Test"]
