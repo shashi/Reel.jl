@@ -5,9 +5,6 @@ version = "1.1.2"
 
 [deps]
 
-[compat]
-julia = ">=1"
-
 [extras]
 Cairo = "159f3aea-2a34-519c-b102-8c37f9878175"
 Compose = "a81c6b42-2e10-5240-aca2-a61377ecd94b"
