@@ -15,7 +15,7 @@
 Pkg.add("Reel")
 ```
 
-You will need `ffmpeg` and `imagemagick` installed to use Reel. This package supersedes [ComposeVideo.jl](https://github.com/arnim/ComposeVideo.jl)
+This package now relies on [FFMPEG.jl](https://github.com/JuliaIO/FFMPEG.jl). For versions lower than 1.2 you will need `ffmpeg` and `imagemagick` installed to use Reel. This package supersedes [ComposeVideo.jl](https://github.com/arnim/ComposeVideo.jl)
 
 ### Usage
 
