@@ -8,6 +8,7 @@ FFMPEG = "c87230d0-a227-11e9-1b43-d7ebe4e7570a"
 
 [compat]
 FFMPEG = "0.3, 0.4"
+julia = "1"
 
 [extras]
 Cairo = "159f3aea-2a34-519c-b102-8c37f9878175"
