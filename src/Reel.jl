@@ -65,7 +65,7 @@ function write(f::String, frames::Frames{M}; fps=frames.fps) where M
     # TODO: more ffmpeg options
     dir = frames.tmpdir
     ext = extension(M())
-    run(pipeline(`$ffmpeg -y -r $fps -f image2 -i $dir/%d.$ext $f`, stdout=devnull, stderr=devnull))
+    run(pipeline(`$ffmpeg_path -y -r $fps -f image2 -i $dir/%d.$ext $f`, stdout=devnull, stderr=devnull))
     frames.rendered = f
 end
 
