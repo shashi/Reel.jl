@@ -23,7 +23,7 @@ Reel exports the all-important function `roll` which you can use to roll the cam
 
 ```julia
 using Reel
-using Gadfly
+using Plots
 
 function render(t, dt)
     # t is the time into the sequence
@@ -64,6 +64,7 @@ Reel can also render an abstract array of objects:
 
 ```julia
 using Compose
+import Cairo, Fontconfig
 
 Compose.set_default_graphic_size(3inch, 3inch) # Square
 
@@ -75,7 +76,7 @@ roll(map(ngon, vcat(3:10, 9:-1:3)), fps=5)
 ```
 
 <p align="center">
-    <img src="http://shashi.github.io/.assets/Reel/ngon.gif" />
+    <img src="ngons.gif" />
 </p>
 
 
