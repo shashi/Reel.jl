@@ -3,6 +3,7 @@ os:
   - linux
   - osx
   - windows # broken
+  
 before_install:
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then sudo apt-get install -y libxt6 libxrender1 libxext6 libgl1-mesa-glx libqt5widgets5; fi
 
