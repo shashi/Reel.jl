@@ -4,11 +4,13 @@ os:
   - osx
   - windows # broken
 before_install:
-  - sudo apt-get -y libxt6 libxrender1 libxext6 libgl1-mesa-glx libqt5widgets5
-julia:
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then sudo apt-get -y libxt6 libxrender1 libxext6 libgl1-mesa-glx libqt5widgets5; fi
+
+  julia:
   - 1.0
   - 1
   - nightly
+
 matrix:
   allow_failures:
     - julia: nightly
