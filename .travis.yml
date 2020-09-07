@@ -1,13 +1,13 @@
 language: julia
 os:
   - linux
-  # - osx
-  # - windows # broken
-
+  - osx
+  - windows # broken
+  
 before_install:
-  - sudo apt-get install -y libxt6 libxrender1 libxext6 libgl1-mesa-glx libqt5widgets5
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then sudo apt-get install -y libxt6 libxrender1 libxext6 libgl1-mesa-glx libqt5widgets5; fi
 
-  julia:
+julia:
   - 1.0
   - 1
   - nightly
@@ -15,7 +15,7 @@ before_install:
 matrix:
   allow_failures:
     - julia: nightly
-    # - os: windows
+    - os: windows
 notifications:
   email: false
 
