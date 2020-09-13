@@ -65,7 +65,9 @@ function write(f::String, frames::Frames{M}; fps=frames.fps) where M
     # TODO: more ffmpeg options
     dir = frames.tmpdir
     ext = extension(M())
-    ffmpeg_exe(`-y -r $fps -f image2 -i $dir/%d.$ext $f -loglevel error`)
+     # generate a colorpalette first so ffmpeg does not have to guess it
+    ffmpeg_exe(`-y -i $dir/%d.$ext -vf palettegen $dir/palette.png -loglevel error`)
+    ffmpeg_exe(`-y -r $fps -f image2 -i $dir/%d.$ext -i $dir/palette.png -lavfi paletteuse $f -loglevel error`)
     frames.rendered = f
 end
 
